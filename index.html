@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SortMaster Pro: Advanced Algorithm Visualization Suite</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <style>
+        :root {
+           
+            --primary-color: #3498db; /* Calming Blue: Trust, Dependability, and Serenity */
+            --secondary-color: #e74c3c; /* Energizing Red: Passion, Excitement, and Urgency */
+            --accent-color: #f1c40f; /* Optimistic Yellow: Happiness, Energy, and Warmth */
+            --neutral-color: #95a5a6; /* Soothing Gray: Balance, Calmness, and Professionalism */
+            --dark-color: #34495e; /* Deep Navy: Strength, Reliability, and Stability */
+            --light-color: #ffffff; /* Pure White: Cleanliness, Simplicity, and Space */
+        
+            --primary-dark: #2980b9; /* Darker Shade of Blue */
+            --primary-light: #5dade2; /* Lighter Shade of Blue */
+            --secondary-dark: #c0392b; /* Darker Shade of Red */
+            --secondary-light: #ec7063; /* Lighter Shade of Red */
+            --accent-dark: #f39c12; /* Darker Shade of Yellow */
+            --accent-light: #f7dc6f; /* Lighter Shade of Yellow */
+        }
+        
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 150px 0;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        #sortingContainer, #sortingContainer3D {
+            height: 400px;
+            background-color: #fff;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .bar {
+            background-color: var(--primary-color);
+            margin: 0 1px;
+            display: inline-block;
+            transition: height 0.2s ease;
+        }
+
+        .swiper {
+            width: 100%;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: 300px;
+            height: 300px;
+        }
+
+        #complexityChart, #performanceChart {
+            max-width: 100%;
+            height: 300px;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .btn-custom {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        #sortingAlgorithmCode {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 10px;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--primary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -17px;
+            background-color: var(--light-color);
+            border: 4px solid var(--primary-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .left {
+            left: 0;
+        }
+
+        .right {
+            left: 50%;
+        }
+
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid var(--primary-color);
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent var(--primary-color);
+        }
+
+        .right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid var(--primary-color);
+            border-width: 10px 10px 10px 0;
+            border-color: transparent var(--primary-color) transparent transparent;
+        }
+
+        .right::after {
+            left: -16px;
+        }
+
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container text-center">
+            <h1 class="mb-4" data-aos="fade-up">SortMaster Pro</h1>
+            <p class="lead mb-5" data-aos="fade-up" data-aos-delay="100">Revolutionize your understanding of sorting algorithms through immersive visualizations</p>
+            <a href="#visualizer" class="btn btn-custom btn-lg" data-aos="fade-up" data-aos-delay="200">
+                Start Visualizing
+                <i class="fas fa-chevron-right ml-2"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Visualizer Section -->
+    <section id="visualizer" class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title" data-aos="fade-up">Advanced Sorting Visualizer</h2>
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4" data-aos="fade-right">
+                        <div class="card-body">
+                            <h5 class="card-title">Input & Controls</h5>
+                            <div class="mb-3">
+                                <label for="numberInput" class="form-label">Enter numbers (comma-separated):</label>
+                                <input type="text" class="form-control" id="numberInput" placeholder="e.g., 64,34,25,12,22,11,90">
+                            </div>
+                            <div class="mb-3">
+                                <label for="arraySize" class="form-label">Array Size: <span id="arraySizeValue">50</span></label>
+                                <input type="range" class="form-range" id="arraySize" min="10" max="200" value="50">
+                            </div>
+                            <div class="mb-3">
+                                <label for="sortSpeed" class="form-label">Sort Speed: <span id="sortSpeedValue">50</span></label>
+                                <input type="range" class="form-range" id="sortSpeed" min="1" max="100" value="50">
+                            </div>
+                            <select id="algorithm" class="form-select mb-3">
+                                <option value="bubble">Bubble Sort</option>
+                                <option value="selection">Selection Sort</option>
+                                <option value="insertion">Insertion Sort</option>
+                                <option value="quick">Quick Sort</option>
+                                <option value="merge">Merge Sort</option>
+                                <option value="heap">Heap Sort</option>
+                                <option value="shell">Shell Sort</option>
+                            </select>
+                            <button id="startSort" class="btn btn-custom w-100">Start Sorting</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <ul class="nav nav-tabs" id="visualizationTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="bars-tab" data-bs-toggle="tab" data-bs-target="#bars" type="button" role="tab" aria-controls="bars" aria-selected="true">Bar Visualization</button>
+                        </li>
+                       
+                    </ul>
+                    <div class="tab-content" id="visualizationTabsContent">
+                        <div class="tab-pane fade show active" id="bars" role="tabpanel" aria-labelledby="bars-tab">
+                            <div id="sortingContainer" data-aos="fade-left"></div>
+                        </div>
+                        <div class="tab-pane fade" id="3d" role="tabpanel" aria-labelledby="3d-tab">
+                            <div id="sortingContainer3D" data-aos="fade-left"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Algorithm Comparison Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title" data-aos="fade-up">Algorithm Insights</h2>
+            <div class="row">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Time Complexity</h5>
+                            <canvas id="complexityChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Performance Comparison</h5>
+                            <canvas id="performanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Algorithm Details Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title" data-aos="fade-up">Algorithm Deep Dive</h2>
+            <div class="row">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Algorithm Explanation</h5>
+                            <p id="algoExplanation">Select an algorithm to see its explanation.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Pseudocode</h5>
+                            <pre id="sortingAlgorithmCode">
+// Select an algorithm to see its pseudocode
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Learning Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title" data-aos="fade-up">Interactive Learning</h2>
+            <div class="row">
+                <div class="col-md-6" data-aos="fade-right">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Step-by-Step Visualization</h5>
+                            <div id="stepVisualization"></div>
+                            <button id="nextStep" class="btn btn-custom mt-3">Next Step</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Quiz</h5>
+                            <div id="quizContainer">
+                                <p id="quizQuestion"></p>
+                                <div id="quizOptions"></div>
+                                <button id="submitQuiz" class="btn btn-custom mt-3">Submit Answer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Algorithm History Timeline -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title" data-aos="fade-up">Evolution of Sorting Algorithms</h2>
+            <div class="timeline">
+                <div class="timeline-item left" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <h2>1945</h2>
+                        <p>John von Neumann introduces Merge Sort</p>
+                    </div>
+                </div>
+                <div class="timeline-item right" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <h2>1959</h2>
+                        <p>Shell Sort developed by Donald Shell</p>
+                    </div>
+                </div>
+                <div class="timeline-item left" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <h2>1961</h2>
+                        <p>Quicksort algorithm published by Tony Hoare</p>
+                    </div>
+                </div>
+                <div class="timeline-item right" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <h2>1964</h2>
+                        <p>Heapsort invented by J. W. J. Williams</p>
+                    </div>
+                </div>
+                <div class="timeline-item left" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <h2>1993</h2>
+                        <p>Timsort, a hybrid sorting algorithm, developed by Tim Peters</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title" data-aos="fade-up">Key Features</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4" data-aos="fade-up">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="fas fa-chart-line feature-icon"></i>
+                            <h5 class="card-title">Real-time Visualization</h5>
+                            <p class="card-text">Experience sorting algorithms in action with smooth, real-time animations in both 2D and 3D views.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="fas fa-puzzle-piece feature-icon"></i>
+                            <h5 class="card-title">Interactive Learning</h5>
+                            <p class="card-text">Engage with step-by-step visualizations and quizzes to deepen your understanding of sorting algorithms.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="fas fa-tachometer-alt feature-icon"></i>
+                            <h5 class="card-title">Performance Analysis</h5>
+                            <p class="card-text">Compare algorithm efficiency with detailed time complexity charts and performance metrics.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center section-title" data-aos="fade-up">What Our Users Say</h2>
+            <div class="swiper testimonialSwiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-text">"SortMaster Pro revolutionized my understanding of sorting algorithms. The visualizations are incredible!"</p>
+                                <p class="font-weight-bold">- Jane Doe, Computer Science Student</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-text">"As a teacher, this tool has been invaluable in explaining complex concepts to my students."</p>
+                                <p class="font-weight-bold">- John Smith, Professor of Computer Science</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-text">"The interactive quizzes and step-by-step visualizations make learning algorithms fun and engaging!"</p>
+                                <p class="font-weight-bold">- Alice Johnson, Coding Bootcamp Attendee</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5 bg-primary text-white">
+        <div class="container text-center">
+            <h2 class="mb-4" data-aos="fade-up">Ready to master sorting algorithms?</h2>
+            <p class="lead mb-4" data-aos="fade-up" data-aos-delay="100">Join thousands of students and professionals in revolutionizing your algorithm skills!</p>
+            <a href="#" class="btn btn-light btn-lg" data-aos="fade-up" data-aos-delay="200">Get Started for Free</a>
+        </div>
+    </section>
+
+    <footer class="py-4 bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>SortMaster Pro</h5>
+                    <p>Advanced Algorithm Visualization Suite</p>
+                </div>
+                <div class="col-md-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#visualizer">Visualizer</a></li>
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#tutorialModal">Tutorial</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Connect with Us</h5>
+                    <div class="social-icons">
+                        <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center">&copy; 2024 SortMaster Pro. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Tutorial Modal -->
+    <div class="modal fade" id="tutorialModal" tabindex="-1" aria-labelledby="tutorialModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tutorialModalLabel">How to Use SortMaster Pro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Tutorial content goes here -->
+                    <h6>1. Enter Your Data</h6>
+                    <p>Input your numbers or use the random generator.</p>
+                    
+                    <h6>2. Choose an Algorithm</h6>
+                    <p>Select from our wide range of sorting algorithms.</p>
+                    
+                    <h6>3. Customize Settings</h6>
+                    <p>Adjust the array size and sorting speed to your preference.</p>
+                    
+                    <h6>4. Start Visualizing</h6>
+                    <p>Hit the 'Start Sorting' button and watch the magic happen!</p>
+                    
+                    <h6>5. Explore and Learn</h6>
+                    <p>Use our interactive features to deepen your understanding.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Got it!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.7.14/lottie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init();
+        
+        // Initialize Swiper
+        const testimonialSwiper = new Swiper('.testimonialSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                640: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                },
+            }
+        });
+        
+        // Sorting visualizer logic
+        const container = document.getElementById('sortingContainer');
+        const container3D = document.getElementById('sortingContainer3D');
+        const startSortBtn = document.getElementById('startSort');
+        const arraySizeInput = document.getElementById('arraySize');
+        const arraySizeValue = document.getElementById('arraySizeValue');
+        const sortSpeedInput = document.getElementById('sortSpeed');
+        const sortSpeedValue = document.getElementById('sortSpeedValue');
+        const algorithmSelect = document.getElementById('algorithm');
+        const numberInput = document.getElementById('numberInput');
+        
+        let array = [];
+        let sorting = false;
+        let animationFrameId;
+        
+        // Update range input values
+        arraySizeInput.addEventListener('input', () => {
+            arraySizeValue.textContent = arraySizeInput.value;
+            generateArray();
+        });
+        
+        sortSpeedInput.addEventListener('input', () => {
+            sortSpeedValue.textContent = sortSpeedInput.value;
+        });
+        
+        function generateArray() {
+            array = [];
+            const inputNumbers = numberInput.value.split(',').map(num => parseInt(num.trim()));
+            
+            if (inputNumbers.length > 1 && !inputNumbers.some(isNaN)) {
+                array = inputNumbers;
+            } else {
+                for (let i = 0; i < arraySizeInput.value; i++) {
+                    array.push(Math.floor(Math.random() * 100) + 1);
+                }
+            }
+            
+            displayArray();
+            display3DArray();
+        }
+        
+        function displayArray() {
+            container.innerHTML = '';
+            const maxVal = Math.max(...array);
+            const fragment = document.createDocumentFragment();
+            for (let i = 0; i < array.length; i++) {
+                const bar = document.createElement('div');
+                bar.classList.add('bar');
+                bar.style.height = `${(array[i] / maxVal) * 100}%`;
+                bar.style.width = `${100 / array.length}%`;
+                fragment.appendChild(bar);
+            }
+            container.appendChild(fragment);
+        }
+        
+        // 3D visualization setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, container3D.clientWidth / container3D.clientHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(container3D.clientWidth, container3D.clientHeight);
+        container3D.appendChild(renderer.domElement);
+        
+        function display3DArray() {
+            while(scene.children.length > 0){ 
+                scene.remove(scene.children[0]); 
+            }
+        
+            const geometry = new THREE.BoxGeometry(1, 1, 1);
+            const material = new THREE.MeshPhongMaterial({ color: 0x4a90e2 });
+            
+            const maxVal = Math.max(...array);
+            for (let i = 0; i < array.length; i++) {
+                const bar = new THREE.Mesh(geometry, material);
+                bar.scale.y = array[i] / maxVal * 5;
+                bar.position.x = (i - array.length / 2) * 1.2;
+                bar.position.y = bar.scale.y / 2;
+                scene.add(bar);
+            }
+        
+            // Add lighting
+            const light = new THREE.PointLight(0xffffff, 1, 100);
+            light.position.set(0, 10, 10);
+            scene.add(light);
+        
+            camera.position.z = Math.max(15, array.length * 0.25);
+            camera.position.y = 5;
+            camera.lookAt(scene.position);
+        
+            function animate() {
+                animationFrameId = requestAnimationFrame(animate);
+                renderer.render(scene, camera);
+            }
+            animate();
+        }
+        
+        // Sorting algorithms
+        const sortingAlgorithms = {
+            bubble: bubbleSort,
+            selection: selectionSort,
+            insertion: insertionSort,
+            quick: quickSort,
+            merge: mergeSort,
+            heap: heapSort,
+            shell: shellSort
+        };
+        
+        async function bubbleSort() {
+            const n = array.length;
+            for (let i = 0; i < n - 1; i++) {
+                for (let j = 0; j < n - i - 1; j++) {
+                    if (array[j] > array[j + 1]) {
+                        [array[j], array[j + 1]] = [array[j + 1], array[j]];
+                        displayArray();
+                        display3DArray();
+                        await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+                    }
+                }
+            }
+        }
+        
+        async function selectionSort() {
+            const n = array.length;
+            for (let i = 0; i < n - 1; i++) {
+                let minIdx = i;
+                for (let j = i + 1; j < n; j++) {
+                    if (array[j] < array[minIdx]) {
+                        minIdx = j;
+                    }
+                }
+                if (minIdx !== i) {
+                    [array[i], array[minIdx]] = [array[minIdx], array[i]];
+                    displayArray();
+                    display3DArray();
+                    await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+                }
+            }
+        }
+        
+        async function insertionSort() {
+            const n = array.length;
+            for (let i = 1; i < n; i++) {
+                let key = array[i];
+                let j = i - 1;
+                while (j >= 0 && array[j] > key) {
+                    array[j + 1] = array[j];
+                    j--;
+                    displayArray();
+                    display3DArray();
+                    await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+                }
+                array[j + 1] = key;
+                displayArray();
+                display3DArray();
+                await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+            }
+        }
+        
+        async function quickSort(low = 0, high = array.length - 1) {
+            if (low < high) {
+                let pi = await partition(low, high);
+                await quickSort(low, pi - 1);
+                await quickSort(pi + 1, high);
+            }
+        }
+        
+        async function partition(low, high) {
+            let pivot = array[high];
+            let i = low - 1;
+            for (let j = low; j < high; j++) {
+                if (array[j] < pivot) {
+                    i++;
+                    [array[i], array[j]] = [array[j], array[i]];
+                    displayArray();
+                    display3DArray();
+                    await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+                }
+            }
+            [array[i + 1], array[high]] = [array[high], array[i + 1]];
+            displayArray();
+            display3DArray();
+            await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+            return i + 1;
+        }
+        
+        async function mergeSort(left = 0, right = array.length - 1) {
+            if (left < right) {
+                const mid = Math.floor((left + right) / 2);
+                await mergeSort(left, mid);
+                await mergeSort(mid + 1, right);
+                await merge(left, mid, right);
+            }
+        }
+        
+        async function merge(left, mid, right) {
+            const n1 = mid - left + 1;
+            const n2 = right - mid;
+            const L = new Array(n1);
+            const R = new Array(n2);
+        
+            for (let i = 0; i < n1; i++) L[i] = array[left + i];
+            for (let j = 0; j < n2; j++) R[j] = array[mid + 1 + j];
+        
+            let i = 0, j = 0, k = left;
+            while (i < n1 && j < n2) {
+                if (L[i] <= R[j]) {
+                    array[k] = L[i];
+                    i++;
+                } else {
+                    array[k] = R[j];
+                    j++;
+                }
+                k++;
+                displayArray();
+                display3DArray();
+                await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+            }
+        
+            while (i < n1) {
+                array[k] = L[i];
+                i++;
+                k++;
+                displayArray();
+                display3DArray();
+                await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+            }
+        
+            while (j < n2) {
+                array[k] = R[j];
+                j++;
+                k++;
+                displayArray();
+                display3DArray();
+                await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+            }
+        }
+        
+        async function heapSort() {
+            const n = array.length;
+        
+            for (let i = Math.floor(n / 2) - 1; i >= 0; i--)
+                await heapify(n, i);
+        
+            for (let i = n - 1; i > 0; i--) {
+                [array[0], array[i]] = [array[i], array[0]];
+                displayArray();
+                display3DArray();
+                await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+                await heapify(i, 0);
+            }
+        }
+        
+        async function heapify(n, i) {
+            let largest = i;
+            const left = 2 * i + 1;
+            const right = 2 * i + 2;
+        
+            if (left < n && array[left] > array[largest])
+                largest = left;
+        
+            if (right < n && array[right] > array[largest])
+                largest = right;
+        
+            if (largest !== i) {
+                [array[i], array[largest]] = [array[largest], array[i]];
+                displayArray();
+                display3DArray();
+                await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+                await heapify(n, largest);
+            }
+        }
+        
+        async function shellSort() {
+            const n = array.length;
+            for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+                for (let i = gap; i < n; i++) {
+                    let temp = array[i];
+                    let j;
+                    for (j = i; j >= gap && array[j - gap] > temp; j -= gap) {
+                        array[j] = array[j - gap];
+                        displayArray();
+                        display3DArray();
+                        await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+                    }
+                    array[j] = temp;
+                    displayArray();
+                    display3DArray();
+                    await new Promise(resolve => setTimeout(resolve, 101 - sortSpeedInput.value));
+                }
+            }
+        }
+        
+        startSortBtn.addEventListener('click', async () => {
+            if (!sorting) {
+                sorting = true;
+                startSortBtn.disabled = true;
+                generateArray();
+                const selectedAlgorithm = algorithmSelect.value;
+                if (sortingAlgorithms[selectedAlgorithm]) {
+                    await sortingAlgorithms[selectedAlgorithm]();
+                }
+                sorting = false;
+                startSortBtn.disabled = false;
+            }
+        });
+        
+        // Initialize
+        generateArray();
+        
+        // Complexity chart
+        const ctxComplexity = document.getElementById('complexityChart').getContext('2d');
+        const complexityChart = new Chart(ctxComplexity, {
+            type: 'line',
+            data: {
+                labels: ['10', '100', '1000', '10000'],
+                datasets: [{
+                    label: 'Bubble Sort',
+                    data: [100, 10000, 1000000, 100000000],
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1
+                }, {
+                    label: 'Quick Sort',
+                    data: [100, 1000, 10000, 100000],
+                    borderColor: 'rgb(54, 162, 235)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        type: 'logarithmic',
+                        title: {
+                            display: true,
+                            text: 'Time (ms)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Array Size'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Performance chart
+        const ctxPerformance = document.getElementById('performanceChart').getContext('2d');
+        const performanceChart = new Chart(ctxPerformance, {
+            type: 'bar',
+            data: {
+                labels: ['Bubble Sort', 'Quick Sort', 'Merge Sort', 'Heap Sort', 'Insertion Sort'],
+                datasets: [{
+                    label: 'Average Time (ms) for 1000 elements',
+                    data: [1500, 50, 70, 80, 800],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.5)',
+                        'rgba(54, 162, 235, 0.5)',
+                        'rgba(255, 206, 86, 0.5)',
+                        'rgba(75, 192, 192, 0.5)',
+                        'rgba(153, 102, 255, 0.5)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Time (ms)'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Algorithm explanation
+        const algoExplanation = document.getElementById('algoExplanation');
+        const sortingAlgorithmCode = document.getElementById('sortingAlgorithmCode');
+        
+        const algorithmInfo = {
+            bubble: {
+                explanation: "Bubble Sort is a simple sorting algorithm that repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order. The pass through the list is repeated until the list is sorted.",
+                pseudocode: `procedure bubbleSort(A : list of sortable items)
+            n = length(A)
+            repeat
+                swapped = false
+                for i = 1 to n-1 inclusive do
+                    if A[i-1] > A[i] then
+                        swap(A[i-1], A[i])
+                        swapped = true
+                    end if
+                end for
+            until not swapped
+        end procedure`
+            },
+            selection: {
+                explanation: "Selection Sort divides the input list into two parts: a sorted portion at the left end and an unsorted portion at the right end. Initially, the sorted portion is empty and the unsorted portion is the entire list. The algorithm proceeds by finding the smallest element in the unsorted portion, swapping it with the leftmost unsorted element, and moving the boundary one element to the right.",
+                pseudocode: `procedure selectionSort(A : list of sortable items)
+            n = length(A)
+            for i = 0 to n-1 do
+                min = i
+                for j = i+1 to n do
+                    if A[j] < A[min] then
+                        min = j
+                    end if
+                end for
+                if min != i then
+                    swap A[i] with A[min]
+                end if
+            end for
+        end procedure`
+            },
+            insertion: {
+                explanation: "Insertion Sort builds the final sorted array one item at a time. It iterates through an input array and removes one element per iteration, finds the place the element belongs in the sorted list, and inserts it there. It repeats until no input elements remain.",
+                pseudocode: `procedure insertionSort(A : list of sortable items)
+            n = length(A)
+            for i = 1 to n-1 do
+                key = A[i]
+                j = i - 1
+                while j >= 0 and A[j] > key do
+                    A[j+1] = A[j]
+                    j = j - 1
+                end while
+                A[j+1] = key
+            end for
+        end procedure`
+            },
+            quick: {
+                explanation: "QuickSort is an efficient, recursive divide-and-conquer approach to sorting an array. It works by selecting a 'pivot' element and partitioning the other elements into two sub-arrays according to whether they are less than or greater than the pivot.",
+                pseudocode: `procedure quickSort(A, lo, hi)
+            if lo < hi then
+                p = partition(A, lo, hi)
+                quickSort(A, lo, p - 1)
+                quickSort(A, p + 1, hi)
+        
+        procedure partition(A, lo, hi)
+            pivot = A[hi]
+            i = lo - 1
+            for j = lo to hi - 1 do
+                if A[j] <= pivot then
+                    i = i + 1
+                    swap A[i] with A[j]
+            swap A[i + 1] with A[hi]
+            return i + 1`
+            },
+            merge: {
+                explanation: "Merge Sort is an efficient, stable sorting algorithm that makes use of the divide and conquer strategy. Conceptually, it works as follows: 1) Divide the unsorted list into n sublists, each containing one element (a list of one element is considered sorted). 2) Repeatedly merge sublists to produce new sorted sublists until there is only one sublist remaining. This will be the sorted list.",
+                pseudocode: `procedure mergeSort(A : list of sortable items)
+            if length(A) > 1 then
+                middle = length(A) / 2
+                left = A[0..middle-1]
+                right = A[middle..length(A)-1]
+                mergeSort(left)
+                mergeSort(right)
+                merge(A, left, right)
+            end if
+        end procedure
+        
+        procedure merge(A, left, right)
+            i = 0, j = 0, k = 0
+            while i < length(left) and j < length(right) do
+                if left[i] <= right[j] then
+                    A[k] = left[i]
+                    i = i + 1
+                else
+                    A[k] = right[j]
+                    j = j + 1
+                end if
+                k = k + 1
+            end while
+            while i < length(left) do
+                A[k] = left[i]
+                i = i + 1
+                k = k + 1
+            end while
+            while j < length(right) do
+                A[k] = right[j]
+                j = j + 1
+                k = k + 1
+            end while
+        end procedure`
+            },
+            heap: {
+                explanation: "Heap Sort is a comparison-based sorting algorithm that uses a binary heap data structure. It divides its input into a sorted and an unsorted region, and it iteratively shrinks the unsorted region by extracting the largest element and moving that to the sorted region.",
+                pseudocode: `procedure heapSort(A : list of sortable items)
+            n = length(A)
+            for i = n/2 - 1 to 0 do
+                heapify(A, n, i)
+            end for
+            for i = n-1 to 0 do
+                swap A[0] with A[i]
+                heapify(A, i, 0)
+            end for
+        end procedure
+        
+        procedure heapify(A, n, i)
+            largest = i
+            left = 2*i + 1
+            right = 2*i + 2
+            if left < n and A[left] > A[largest] then
+                largest = left
+            end if
+            if right < n and A[right] > A[largest] then
+                largest = right
+            end if
+            if largest != i then
+                swap A[i] with A[largest]
+                heapify(A, n, largest)
+            end if
+        end procedure`
+            },
+            shell: {
+                explanation: "Shell Sort is an in-place comparison sort. It can be seen as either a generalization of sorting by exchange (bubble sort) or sorting by insertion (insertion sort). The method starts by sorting pairs of elements far apart from each other, then progressively reducing the gap between elements to be compared.",
+                pseudocode: `procedure shellSort(A : list of sortable items)
+            n = length(A)
+            gap = n/2
+            while gap > 0 do
+                for i = gap to n-1 do
+                    temp = A[i]
+                    j = i
+                    while j >= gap and A[j - gap] > temp do
+                        A[j] = A[j - gap]
+                        j = j - gap
+                    end while
+                    A[j] = temp
+                end for
+                gap = gap/2
+            end while
+        end procedure`
+            }
+        };
+        
+        algorithmSelect.addEventListener('change', updateAlgorithmInfo);
+        
+        function updateAlgorithmInfo() {
+            const selectedAlgorithm = algorithmSelect.value;
+            const info = algorithmInfo[selectedAlgorithm];
+            if (info) {
+                algoExplanation.textContent = info.explanation;
+                sortingAlgorithmCode.textContent = info.pseudocode;
+            } else {
+                algoExplanation.textContent = "Information not available.";
+                sortingAlgorithmCode.textContent = "Pseudocode not available.";
+            }
+        }
+        
+        // Initialize algorithm info
+        updateAlgorithmInfo();
+        
+        // Step-by-step visualization
+        const stepVisualization = document.getElementById('stepVisualization');
+        const nextStepBtn = document.getElementById('nextStep');
+        let currentStep = 0;
+        let sortingSteps = [];
+        
+        function generateSortingSteps() {
+            sortingSteps = [];
+            const tempArray = [...array];
+            const n = tempArray.length;
+        
+            for (let i = 0; i < n - 1; i++) {
+                for (let j = 0; j < n - i - 1; j++) {
+                    if (tempArray[j] > tempArray[j + 1]) {
+                        [tempArray[j], tempArray[j + 1]] = [tempArray[j + 1], tempArray[j]];
+                        sortingSteps.push([...tempArray]);
+                    }
+                }
+            }
+        }
+        
+        nextStepBtn.addEventListener('click', () => {
+            if (currentStep < sortingSteps.length) {
+                displayStep(sortingSteps[currentStep]);
+                currentStep++;
+            } else {
+                alert("Sorting completed!");
+            }
+        });
+        
+        function displayStep(step) {
+            stepVisualization.innerHTML = '';
+            const maxVal = Math.max(...step);
+            const fragment = document.createDocumentFragment();
+            for (let i = 0; i < step.length; i++) {
+                const bar = document.createElement('div');
+                bar.classList.add('bar');
+                bar.style.height = `${(step[i] / maxVal) * 100}%`;
+                bar.style.width = `${100 / step.length}%`;
+                fragment.appendChild(bar);
+            }
+            stepVisualization.appendChild(fragment);
+        }
+        
+        // Quiz feature
+        const quizQuestion = document.getElementById('quizQuestion');
+        const quizOptions = document.getElementById('quizOptions');
+        const submitQuiz = document.getElementById('submitQuiz');
+        
+        const quizzes = [
+        {
+            question: "Which sorting algorithm has the worst-case time complexity of O(n^2)?",
+            options: ["Merge Sort", "Heap Sort", "Bubble Sort", "Quick Sort"],
+            answer: 2
+        },
+        {
+            question: "What is the best-case time complexity of Insertion Sort?",
+            options: ["O(n)", "O(n^2)", "O(log n)", "O(1)"],
+            answer: 0
+        },
+        {
+            question: "Which sorting algorithm is generally the fastest for large datasets?",
+            options: ["Merge Sort", "Quick Sort", "Bubble Sort", "Selection Sort"],
+            answer: 1
+        },
+        {
+            question: "Which sorting algorithm uses the divide-and-conquer approach?",
+            options: ["Selection Sort", "Insertion Sort", "Merge Sort", "Bubble Sort"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm is stable?",
+            options: ["Quick Sort", "Merge Sort", "Heap Sort", "Selection Sort"],
+            answer: 1
+        },
+        {
+            question: "Which sorting algorithm is in-place?",
+            options: ["Merge Sort", "Quick Sort", "Radix Sort", "Counting Sort"],
+            answer: 1
+        },
+        {
+            question: "Which sorting algorithm can be easily adapted to work on linked lists?",
+            options: ["Quick Sort", "Merge Sort", "Bubble Sort", "Selection Sort"],
+            answer: 1
+        },
+        {
+            question: "What is the average-case time complexity of Quick Sort?",
+            options: ["O(n log n)", "O(n^2)", "O(n)", "O(log n)"],
+            answer: 0
+        },
+        {
+            question: "Which algorithm is best suited for nearly sorted data?",
+            options: ["Merge Sort", "Heap Sort", "Insertion Sort", "Selection Sort"],
+            answer: 2
+        },
+        {
+            question: "What is the main disadvantage of Merge Sort?",
+            options: ["It is not stable", "It has high space complexity", "It is not in-place", "It is slow for large datasets"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm is also known as a comparison sort?",
+            options: ["Radix Sort", "Bucket Sort", "Counting Sort", "Selection Sort"],
+            answer: 3
+        },
+        {
+            question: "What is the time complexity of Counting Sort?",
+            options: ["O(n + k)", "O(n log n)", "O(n^2)", "O(n)"],
+            answer: 0
+        },
+        {
+            question: "Which sorting algorithm is not a comparison-based sort?",
+            options: ["Bubble Sort", "Counting Sort", "Heap Sort", "Quick Sort"],
+            answer: 1
+        },
+        {
+            question: "Which sorting algorithm is generally not preferred for large datasets due to its O(n^2) time complexity?",
+            options: ["Merge Sort", "Heap Sort", "Insertion Sort", "Quick Sort"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm is used in the standard implementation of Java's Arrays.sort() for primitive data types?",
+            options: ["Quick Sort", "Merge Sort", "Dual-Pivot Quick Sort", "Tim Sort"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm is based on binary heap data structure?",
+            options: ["Heap Sort", "Merge Sort", "Bubble Sort", "Quick Sort"],
+            answer: 0
+        },
+        {
+            question: "Which sorting algorithm is typically used in the last phase of a radix sort?",
+            options: ["Insertion Sort", "Quick Sort", "Bubble Sort", "Counting Sort"],
+            answer: 3
+        },
+        {
+            question: "Which algorithm is efficient for sorting a small number of elements?",
+            options: ["Merge Sort", "Quick Sort", "Selection Sort", "Insertion Sort"],
+            answer: 3
+        },
+        {
+            question: "Which algorithm would you use if you know that the list is already nearly sorted?",
+            options: ["Merge Sort", "Quick Sort", "Heap Sort", "Insertion Sort"],
+            answer: 3
+        },
+        {
+            question: "Which sorting algorithm has the best-case time complexity of O(n log n)?",
+            options: ["Merge Sort", "Quick Sort", "Heap Sort", "Bubble Sort"],
+            answer: 0
+        },
+        {
+            question: "Which sorting algorithm is the simplest to implement?",
+            options: ["Bubble Sort", "Heap Sort", "Merge Sort", "Quick Sort"],
+            answer: 0
+        },
+        {
+            question: "Which sorting algorithm divides the input into two halves, sorts them and then merges them?",
+            options: ["Selection Sort", "Quick Sort", "Merge Sort", "Heap Sort"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm is the best for sorting linked lists?",
+            options: ["Quick Sort", "Heap Sort", "Bubble Sort", "Merge Sort"],
+            answer: 3
+        },
+        {
+            question: "Which algorithm is commonly used in practice because of its good average performance?",
+            options: ["Selection Sort", "Quick Sort", "Bubble Sort", "Insertion Sort"],
+            answer: 1
+        },
+        {
+            question: "Which sorting algorithm has a space complexity of O(1)?",
+            options: ["Merge Sort", "Counting Sort", "Heap Sort", "Quick Sort"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm is used by default in Python's sort() and sorted() functions?",
+            options: ["Merge Sort", "Quick Sort", "Heap Sort", "Tim Sort"],
+            answer: 3
+        },
+        {
+            question: "Which sorting algorithm performs the minimum number of swaps?",
+            options: ["Selection Sort", "Bubble Sort", "Insertion Sort", "Heap Sort"],
+            answer: 0
+        },
+        {
+            question: "Which sorting algorithm has a worst-case time complexity of O(n log n)?",
+            options: ["Merge Sort", "Heap Sort", "Quick Sort", "Bubble Sort"],
+            answer: 0
+        },
+        {
+            question: "Which sorting algorithm is a hybrid of Merge Sort and Insertion Sort?",
+            options: ["Quick Sort", "Heap Sort", "Bubble Sort", "Tim Sort"],
+            answer: 3
+        },
+        {
+            question: "Which sorting algorithm is not stable?",
+            options: ["Merge Sort", "Quick Sort", "Bubble Sort", "Insertion Sort"],
+            answer: 1
+        },
+        {
+            question: "Which sorting algorithm is known as a non-comparison sort?",
+            options: ["Heap Sort", "Quick Sort", "Radix Sort", "Selection Sort"],
+            answer: 2
+        },
+        {
+            question: "Which algorithm is known for its divide and conquer strategy?",
+            options: ["Quick Sort", "Merge Sort", "Selection Sort", "Heap Sort"],
+            answer: 1
+        },
+        {
+            question: "Which sorting algorithm is the most efficient in practice for large arrays with uniformly distributed elements?",
+            options: ["Quick Sort", "Heap Sort", "Merge Sort", "Bubble Sort"],
+            answer: 0
+        },
+        {
+            question: "Which sorting algorithm works best with small datasets?",
+            options: ["Merge Sort", "Quick Sort", "Insertion Sort", "Heap Sort"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm is the slowest?",
+            options: ["Merge Sort", "Quick Sort", "Bubble Sort", "Heap Sort"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm can be easily parallelized?",
+            options: ["Bubble Sort", "Merge Sort", "Selection Sort", "Insertion Sort"],
+            answer: 1
+        },
+        {
+            question: "Which algorithm has a lower bound of O(n log n) for comparison-based sorting?",
+            options: ["Bubble Sort", "Quick Sort", "Heap Sort", "Counting Sort"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm is preferred for sorting data that fits in memory?",
+            options: ["Quick Sort", "Heap Sort", "Merge Sort", "Selection Sort"],
+            answer: 0
+        },
+        {
+            question: "Which sorting algorithm is known for its quadratic time complexity in the worst case?",
+            options: ["Merge Sort", "Quick Sort", "Heap Sort", "Insertion Sort"],
+            answer: 3
+        },
+        {
+            question: "Which sorting algorithm is ideal for use in systems with limited memory?",
+            options: ["Quick Sort", "Merge Sort", "Heap Sort", "Selection Sort"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm is best suited for sorting data that frequently changes?",
+            options: ["Bubble Sort", "Quick Sort", "Insertion Sort", "Merge Sort"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm is a good choice for large datasets and is not stable?",
+            options: ["Merge Sort", "Heap Sort", "Bubble Sort", "Insertion Sort"],
+            answer: 1
+        },
+        {
+            question: "Which sorting algorithm works by repeatedly finding the minimum element?",
+            options: ["Selection Sort", "Merge Sort", "Heap Sort", "Quick Sort"],
+            answer: 0
+        },
+        {
+            question: "Which sorting algorithm has a lower bound of O(n log n) for comparison-based sorting?",
+            options: ["Bubble Sort", "Heap Sort", "Quick Sort", "Selection Sort"],
+            answer: 1
+        },
+        {
+            question: "Which algorithm has the best performance when dealing with large, nearly sorted arrays?",
+            options: ["Bubble Sort", "Quick Sort", "Insertion Sort", "Merge Sort"],
+            answer: 2
+        },
+        {
+            question: "Which sorting algorithm would you use for a real-time system?",
+            options: ["Quick Sort", "Heap Sort", "Merge Sort", "Insertion Sort"],
+            answer: 3
+        },
+        {
+            question: "Which sorting algorithm does not require additional memory for arrays?",
+            options: ["Merge Sort", "Quick Sort", "Selection Sort", "Bubble Sort"],
+            answer: 1
+        },
+        {
+            question: "Which sorting algorithm can have the best performance for data with a small range of values?",
+            options: ["Counting Sort", "Quick Sort", "Heap Sort", "Merge Sort"],
+            answer: 0
+        },
+        {
+            question: "Which sorting algorithm has the property of maintaining the relative order of equal elements?",
+            options: ["Merge Sort", "Heap Sort", "Quick Sort", "Selection Sort"],
+            answer: 0
+        },
+        ];
+        
+        let currentQuiz = 0;
+        
+        function displayQuiz() {
+            const quiz = quizzes[currentQuiz];
+            quizQuestion.textContent = quiz.question;
+            quizOptions.innerHTML = '';
+            quiz.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('btn', 'btn-outline-primary', 'me-2', 'mb-2');
+                button.addEventListener('click', () => selectOption(index));
+                quizOptions.appendChild(button);
+            });
+        }
+        
+        function selectOption(index) {
+            const options = quizOptions.children;
+            for (let i = 0; i < options.length; i++) {
+                options[i].classList.remove('btn-primary');
+                options[i].classList.add('btn-outline-primary');
+            }
+            options[index].classList.remove('btn-outline-primary');
+            options[index].classList.add('btn-primary');
+        }
+        
+        submitQuiz.addEventListener('click', () => {
+            const selectedOption = quizOptions.querySelector('.btn-primary');
+            if (selectedOption) {
+                const selectedIndex = Array.from(quizOptions.children).indexOf(selectedOption);
+                if (selectedIndex === quizzes[currentQuiz].answer) {
+                    alert("Correct!");
+                } else {
+                    alert("Incorrect. Try again!");
+                }
+                currentQuiz = (currentQuiz + 1) % quizzes.length;
+                displayQuiz();
+            } else {
+                alert("Please select an option.");
+            }
+        });
+        
+        // Initialize quiz
+        displayQuiz();
+        
+        // Responsive design for 3D visualization
+        window.addEventListener('resize', () => {
+            camera.aspect = container3D.clientWidth / container3D.clientHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(container3D.clientWidth, container3D.clientHeight);
+        });
+        
+        // Clean up function
+        function cleanup() {
+            cancelAnimationFrame(animationFrameId);
+            testimonialSwiper.destroy();
+            complexityChart.destroy();
+            performanceChart.destroy();
+            renderer.dispose();
+        }
+        
+        // Call cleanup when needed (e.g., when unmounting the component in a single-page application)
+        // window.addEventListener('unload', cleanup);
+        </script>
+</body>
+</html>
